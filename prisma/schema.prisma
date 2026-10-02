@@ -13,9 +13,19 @@ model User {
   name      String?
   password  String
   telephone String?
+  tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  role Role     @default(USER)
+  role      Role     @default(USER)
+}
+
+model Tenant {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Role {
