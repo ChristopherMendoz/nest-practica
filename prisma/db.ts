@@ -1,9 +1,11 @@
 import 'dotenv/config';
-import postgres from '@prisma/orm-postgres/runtime';
-import type { Contract } from './contract.d';
-import contractJson from './contract.json' with { type: 'json' };
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaClient } from '../generated/prisma/client';
 
-export const db = postgres<Contract>({
-  contractJson,
-  url: process.env['DATABASE_URL']!,
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL!,
+});
+
+export const db = new PrismaClient({
+  adapter,
 });
